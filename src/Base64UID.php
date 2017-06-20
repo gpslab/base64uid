@@ -49,6 +49,7 @@ class Base64UID
 
         if (!function_exists('mcrypt_create_iv')) {
             trigger_error('mcrypt must be loaded for random_int to work', E_USER_WARNING);
+
             return null;
         }
 
@@ -59,7 +60,7 @@ class Base64UID
             ++$bits;
         }
 
-        $bytes = (int) max(ceil($bits/8), 1);
+        $bytes = (int) max(ceil($bits / 8), 1);
         $bitmask = pow(2, $bits) - 1;
 
         if ($bitmask >= PHP_INT_MAX) {
