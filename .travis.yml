@@ -30,7 +30,7 @@ before_install:
     - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
 
 before_script:
-    - travis_retry composer install --no-interaction --no-scripts --no-progress $COMPOSER_FLAGS
+    - travis_retry composer update --no-interaction --no-scripts --no-progress $COMPOSER_FLAGS
 
 script:
     - vendor/bin/phpunit --verbose --coverage-clover build/coverage-clover.xml
