@@ -12,7 +12,10 @@ namespace GpsLab\Component\Base64UID;
 
 class Base64UID
 {
-    const CHARS = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
+    /**
+     * @var string
+     */
+    private static $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
 
     /**
      * @param int $length
@@ -23,7 +26,7 @@ class Base64UID
     {
         $uid = '';
         while ($length-- > 0) {
-            $uid .= self::CHARS[self::random(0, 63)];
+            $uid .= self::$chars[self::random(0, 63)];
         }
 
         return $uid;
