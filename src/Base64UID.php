@@ -38,12 +38,12 @@ class Base64UID
      * Follback for PHP < 7.0
      *
      * @see http://php.net/manual/en/function.random-int.php#119670
+     * @throws \Exception
      *
      * @param int $min
      * @param int $max
      *
      * @return int|null
-     * @throws \Exception
      */
     private static function random($min, $max)
     {
@@ -51,9 +51,11 @@ class Base64UID
             return random_int($min, $max);
         }
 
+        // @codeCoverageIgnoreStart
         if (!function_exists('mcrypt_create_iv')) {
             throw new \Exception('mcrypt must be loaded for random_int to work');
         }
+        // @codeCoverageIgnoreEnd
 
         $range = $counter = $max - $min;
         $bits = 1;

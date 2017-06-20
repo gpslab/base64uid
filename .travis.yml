@@ -24,15 +24,12 @@ matrix:
           env: COVERAGE=1
         - php: 5.4
           env: COVERAGE=1
-        - php: 5.4
-          env: COVERAGE=1 MCRYPT=1
     allow_failures:
         - php: hhvm
 
 before_install:
     - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ] && [ "$COVERAGE" != "1" ]; then phpenv config-rm xdebug.ini; fi;
     - if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then echo "memory_limit=2G" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi;
-    - if [ "$MCRYPT" == "1" ]; then phpenv config-rm mcrypt.ini; fi;
     - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
     - composer self-update
 
