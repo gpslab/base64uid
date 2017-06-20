@@ -21,7 +21,6 @@ class Base64UID
      */
     public static function generate($length = 10)
     {
-
         $uid = '';
         while ($length-- > 0) {
             $uid .= self::CHARS[self::random(0, 63)];
@@ -35,7 +34,7 @@ class Base64UID
      *
      * Follback for PHP < 7.0
      *
-     * @link http://php.net/manual/en/function.random-int.php#119670
+     * @see http://php.net/manual/en/function.random-int.php#119670
      *
      * @param int $min
      * @param int $max
@@ -60,7 +59,7 @@ class Base64UID
             ++$bits;
         }
 
-        $bytes = (int)max(ceil($bits/8), 1);
+        $bytes = (int) max(ceil($bits/8), 1);
         $bitmask = pow(2, $bits) - 1;
 
         if ($bitmask >= PHP_INT_MAX) {
