@@ -20,6 +20,8 @@ branches:
 matrix:
     fast_finish: true
     include:
+        - php: 7.1
+          env: COVERAGE=1
         - php: 5.4
           env: COVERAGE=1
     allow_failures:
