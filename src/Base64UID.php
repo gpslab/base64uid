@@ -43,6 +43,7 @@ class Base64UID
      * @param int $max
      *
      * @return int|null
+     * @throws \Exception
      */
     private static function random($min, $max)
     {
@@ -51,9 +52,7 @@ class Base64UID
         }
 
         if (!function_exists('mcrypt_create_iv')) {
-            trigger_error('mcrypt must be loaded for random_int to work', E_USER_WARNING);
-
-            return null;
+            throw new \Exception('mcrypt must be loaded for random_int to work');
         }
 
         $range = $counter = $max - $min;
