@@ -38,6 +38,7 @@ class Base64UID
      * Follback for PHP < 7.0
      *
      * @see http://php.net/manual/en/function.random-int.php#119670
+     *
      * @throws \Exception
      *
      * @param int $min
