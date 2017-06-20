@@ -27,7 +27,7 @@ matrix:
 before_install:
     - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
 
-before_script:
+install:
     - travis_retry composer update --no-interaction --no-scripts --no-progress $COMPOSER_FLAGS
 
 script:
