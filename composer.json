@@ -1,0 +1,26 @@
+{
+    "name": "gpslab/base64uid",
+    "license": "MIT",
+    "type": "library",
+    "homepage": "https://github.com/gpslab/payload",
+    "description": "Generate UID like YouTube",
+    "keywords": ["uid"],
+    "autoload": {
+        "psr-4": {
+            "GpsLab\\Component\\Base64UID\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GpsLab\\Component\\Base64UID\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8",
+        "scrutinizer/ocular": "~1.3",
+        "satooshi/php-coveralls": "^1.0"
+    }
+}
