@@ -61,7 +61,7 @@ $uid = Base64UID::generate(random_int(8, 10));
 
 ## DDD
 
-How to usage in your domain.
+How to usage in your [domain](https://en.wikipedia.org/wiki/Domain-driven_design).
 
 For example create a `ArticleId` ValueObject:
 
