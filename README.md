@@ -59,7 +59,17 @@ The floating-length identifier will give more unique identifiers.
 $uid = Base64UID::generate(random_int(8, 10));
 ```
 
-## DDD
+You can customize charset.
+
+```php
+$charset = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/';
+$uid = Base64UID::generate(11, $charset);
+
+$charset = '0123456789abcdef';
+$uid = Base64UID::generate(11, $charset);
+```
+
+## Domain-driven design (DDD)
 
 How to usage in your [domain](https://en.wikipedia.org/wiki/Domain-driven_design).
 
