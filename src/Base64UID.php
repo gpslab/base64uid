@@ -15,18 +15,23 @@ class Base64UID
     /**
      * @var string
      */
-    private static $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
+    private static $default_charset = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
 
     /**
-     * @param int $length
+     * @throws \Exception
+     *
+     * @param int    $length
+     * @param string $charset
      *
      * @return string
      */
-    public static function generate($length = 10)
+    public static function generate($length = 10, $charset = '')
     {
+        $charset = $charset ?: self::$default_charset;
+        $charset_size = strlen($charset);
         $uid = '';
         while ($length-- > 0) {
-            $uid .= self::$chars[self::random(0, 63)];
+            $uid .= $charset[self::random(0, $charset_size - 1)];
         }
 
         return $uid;

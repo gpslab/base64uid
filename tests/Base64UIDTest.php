@@ -14,10 +14,35 @@ use GpsLab\Component\Base64UID\Base64UID;
 
 class Base64UIDTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGenerate()
+    public function testGenerateDefault()
     {
-        $this->assertEquals(10, strlen(Base64UID::generate()));
-        $this->assertEquals(6, strlen(Base64UID::generate(6)));
-        $this->assertEquals(0, strlen(Base64UID::generate(-3)));
+        $id = Base64UID::generate();
+        $this->assertEquals(10, strlen($id));
+    }
+
+    public function testGenerateCustomLength()
+    {
+        $id = Base64UID::generate(6);
+        $this->assertEquals(6, strlen($id));
+    }
+
+    public function testGenerateIncorrectLength()
+    {
+        $id = Base64UID::generate(-3);
+        $this->assertEquals('', $id);
+    }
+
+    public function testGenerateCustomCharset()
+    {
+        $charset = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/';
+        $id = Base64UID::generate(11, $charset);
+        $this->assertEquals(11, strlen($id));
+    }
+
+    public function testGenerateCustomCharset2()
+    {
+        $charset = '0123456789abcdef';
+        $id = Base64UID::generate(11, $charset);
+        $this->assertEquals(11, strlen($id));
     }
 }
