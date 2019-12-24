@@ -11,8 +11,9 @@
 namespace GpsLab\Component\Base64UID\Tests;
 
 use GpsLab\Component\Base64UID\Base64UID;
+use PHPUnit\Framework\TestCase;
 
-class Base64UIDTest extends \PHPUnit_Framework_TestCase
+class Base64UIDTest extends TestCase
 {
     public function testGenerateDefault()
     {
