@@ -9,19 +9,19 @@ GpsLab component.
 EOF;
 
 return PhpCsFixer\Config::create()
-    ->setRules([
+    ->setRules(array(
         '@Symfony' => true,
-        'array_syntax' => [
-            'syntax' => 'short',
-        ],
-        'header_comment' => [
+        'array_syntax' => array(
+            'syntax' => 'long',
+        ),
+        'header_comment' => array(
             'commentType' => 'PHPDoc',
             'header' => $header,
-        ],
-        'class_definition' => [
+        ),
+        'class_definition' => array(
             'multiLineExtendsEachSingleLine' => true,
-        ],
-    ])
+        ),
+    ))
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in(__DIR__.'/src')
