@@ -40,12 +40,15 @@ class RandomCharGenerator implements Generator
         if (!is_int($uid_length)) {
             throw new InvalidArgumentException(sprintf('Length of UID should be integer, got "%s" instead.', gettype($uid_length)));
         }
+
         if (!is_string($charset)) {
             throw new InvalidArgumentException(sprintf('Charset of UID should be a string, got "%s" instead.', gettype($charset)));
         }
+
         if ($uid_length <= 0) {
             throw new InvalidArgumentException(sprintf('Length of UID should be grate then 0, got "%d" instead.', $uid_length));
         }
+
         if ($charset === '') {
             throw new InvalidArgumentException('Charset of UID should not be empty.');
         }

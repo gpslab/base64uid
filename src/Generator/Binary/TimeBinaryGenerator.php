@@ -55,38 +55,37 @@ class TimeBinaryGenerator implements BinaryGenerator
         if (PHP_INT_SIZE * 8 < 64) {
             throw new SmallBitModeException(sprintf('This generator require 64-bit mode of system. Your system support %d-bit mode.', PHP_INT_SIZE * 8));
         }
+
         if (!is_int($prefix_length)) {
             throw new InvalidArgumentException(sprintf('Length of prefix for UID should be integer, got "%s" instead.', gettype($prefix_length)));
         }
+
         if (!is_int($time_length)) {
             throw new InvalidArgumentException(sprintf('Length of time for UID should be integer, got "%s" instead.', gettype($time_length)));
         }
+
         if ($prefix_length < 0) {
             throw new InvalidArgumentException(sprintf('Length of prefix for UID should be grate then or equal to "0", got "%d" instead.', $prefix_length));
         }
+
         if ($time_length < 0) {
             throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "0", got "%d" instead.', $time_length));
         }
+
         if ($prefix_length + $time_length > 64 - 1) {
             throw new InvalidArgumentException(sprintf('Length of time and prefix for UID should be less than or equal to "%d", got "%d" instead.', 64 - 1, $prefix_length + $time_length));
         }
+
         $min_time_length = strlen(decbin((int) floor(microtime(true) * 1000)));
+
         if ($time_length < $min_time_length) {
-            throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length, $prefix_length));
+            throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length, $time_length));
         }
 
         $this->time_length = $time_length;
         $this->suffix_length = $time_length - $prefix_length;
-
-        $this->prefix_max_value = 0;
-        for ($i = 0; $i < $prefix_length; ++$i) {
-            $this->prefix_max_value |= 1 << $i;
-        }
-
-        $this->suffix_max_value = 0;
-        for ($i = 0; $i < $this->suffix_length; ++$i) {
-            $this->suffix_max_value |= 1 << $i;
-        }
+        $this->prefix_max_value = bindec(str_repeat('1', $prefix_length));
+        $this->suffix_max_value = bindec(str_repeat('1', $this->suffix_length));
     }
 
     /**

@@ -27,9 +27,11 @@ class RandomBinaryGenerator implements BinaryGenerator
         if (!is_int($uid_bitmap_length)) {
             throw new InvalidArgumentException(sprintf('Length of bitmap for UID should be integer, got "%s" instead.', gettype($uid_bitmap_length)));
         }
+
         if ($uid_bitmap_length <= 0) {
             throw new InvalidArgumentException(sprintf('Length of bitmap for UID should be grate then 0, got "%d" instead.', $uid_bitmap_length));
         }
+
         if ($uid_bitmap_length > PHP_INT_SIZE * 8) {
             throw new InvalidArgumentException(sprintf('Length of bitmap for UID should be less than or equal to "%d", got "%d" instead.', PHP_INT_SIZE * 8, $uid_bitmap_length));
         }

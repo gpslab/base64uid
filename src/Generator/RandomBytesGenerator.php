@@ -27,6 +27,7 @@ class RandomBytesGenerator implements Generator
         if (!is_int($bytes_length)) {
             throw new InvalidArgumentException(sprintf('Length of bytes should be integer, got "%s" instead.', gettype($bytes_length)));
         }
+
         if ($bytes_length <= 0) {
             throw new InvalidArgumentException(sprintf('Length of bytes should be grate then 0, got "%d" instead.', $bytes_length));
         }
