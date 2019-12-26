@@ -28,7 +28,7 @@ class TimeBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentTypeException
      */
     public function testPrefixLengthNoInteger()
     {
@@ -36,7 +36,7 @@ class TimeBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentTypeException
      */
     public function testTimeLengthNoInteger()
     {
@@ -44,7 +44,7 @@ class TimeBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentTypeException
      */
     public function testTimeOffsetNoInteger()
     {

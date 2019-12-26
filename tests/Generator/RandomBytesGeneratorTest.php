@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 class RandomBytesGeneratorTest extends TestCase
 {
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentTypeException
      */
     public function testBytesLengthNoInteger()
     {

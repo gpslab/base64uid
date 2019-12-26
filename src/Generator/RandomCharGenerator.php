@@ -10,6 +10,7 @@
 
 namespace GpsLab\Component\Base64UID\Generator;
 
+use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 
 class RandomCharGenerator implements Generator
@@ -38,11 +39,11 @@ class RandomCharGenerator implements Generator
         $charset = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-'
     ) {
         if (!is_int($uid_length)) {
-            throw new InvalidArgumentException(sprintf('Length of UID should be integer, got "%s" instead.', gettype($uid_length)));
+            throw new ArgumentTypeException(sprintf('Length of UID should be integer, got "%s" instead.', gettype($uid_length)));
         }
 
         if (!is_string($charset)) {
-            throw new InvalidArgumentException(sprintf('Charset of UID should be a string, got "%s" instead.', gettype($charset)));
+            throw new ArgumentTypeException(sprintf('Charset of UID should be a string, got "%s" instead.', gettype($charset)));
         }
 
         if ($uid_length <= 0) {

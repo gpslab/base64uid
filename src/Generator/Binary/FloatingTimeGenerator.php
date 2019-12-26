@@ -10,6 +10,7 @@
 
 namespace GpsLab\Component\Base64UID\Generator\Binary;
 
+use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 
 class FloatingTimeGenerator implements BinaryGenerator
@@ -46,11 +47,11 @@ class FloatingTimeGenerator implements BinaryGenerator
     public function __construct($time_length = 45, $time_offset = 0)
     {
         if (!is_int($time_length)) {
-            throw new InvalidArgumentException(sprintf('Length of time for UID should be integer, got "%s" instead.', gettype($time_length)));
+            throw new ArgumentTypeException(sprintf('Length of time for UID should be integer, got "%s" instead.', gettype($time_length)));
         }
 
         if (!is_int($time_offset)) {
-            throw new InvalidArgumentException(sprintf('Time offset should be integer, got "%s" instead.', gettype($time_offset)));
+            throw new ArgumentTypeException(sprintf('Time offset should be integer, got "%s" instead.', gettype($time_offset)));
         }
 
         if ($time_length < 0) {

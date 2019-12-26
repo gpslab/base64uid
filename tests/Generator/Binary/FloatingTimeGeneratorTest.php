@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 class FloatingTimeGeneratorTest extends TestCase
 {
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentTypeException
      */
     public function testTimeLengthNoInteger()
     {
@@ -24,7 +24,7 @@ class FloatingTimeGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentTypeException
      */
     public function testTimeOffsetNoInteger()
     {

@@ -10,6 +10,7 @@
 
 namespace GpsLab\Component\Base64UID\Generator\Binary;
 
+use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 
 class RandomBinaryGenerator implements BinaryGenerator
@@ -25,7 +26,7 @@ class RandomBinaryGenerator implements BinaryGenerator
     public function __construct($uid_bitmap_length)
     {
         if (!is_int($uid_bitmap_length)) {
-            throw new InvalidArgumentException(sprintf('Length of bitmap for UID should be integer, got "%s" instead.', gettype($uid_bitmap_length)));
+            throw new ArgumentTypeException(sprintf('Length of bitmap for UID should be integer, got "%s" instead.', gettype($uid_bitmap_length)));
         }
 
         if ($uid_bitmap_length <= 0) {

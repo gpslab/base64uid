@@ -10,6 +10,7 @@
 
 namespace GpsLab\Component\Base64UID\Generator\Binary;
 
+use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
 use GpsLab\Component\Base64UID\Exception\BitmapOverflowException;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 use GpsLab\Component\Base64UID\Exception\SmallBitModeException;
@@ -68,15 +69,15 @@ class TimeBinaryGenerator implements BinaryGenerator
         }
 
         if (!is_int($prefix_length)) {
-            throw new InvalidArgumentException(sprintf('Length of prefix for UID should be integer, got "%s" instead.', gettype($prefix_length)));
+            throw new ArgumentTypeException(sprintf('Length of prefix for UID should be integer, got "%s" instead.', gettype($prefix_length)));
         }
 
         if (!is_int($time_length)) {
-            throw new InvalidArgumentException(sprintf('Length of time for UID should be integer, got "%s" instead.', gettype($time_length)));
+            throw new ArgumentTypeException(sprintf('Length of time for UID should be integer, got "%s" instead.', gettype($time_length)));
         }
 
         if (!is_int($time_offset)) {
-            throw new InvalidArgumentException(sprintf('Time offset should be integer, got "%s" instead.', gettype($time_offset)));
+            throw new ArgumentTypeException(sprintf('Time offset should be integer, got "%s" instead.', gettype($time_offset)));
         }
 
         if ($prefix_length < 0) {

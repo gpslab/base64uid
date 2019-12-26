@@ -10,6 +10,7 @@
 
 namespace GpsLab\Component\Base64UID\Generator;
 
+use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 
 class RandomBytesGenerator implements Generator
@@ -25,7 +26,7 @@ class RandomBytesGenerator implements Generator
     public function __construct($bytes_length = 8)
     {
         if (!is_int($bytes_length)) {
-            throw new InvalidArgumentException(sprintf('Length of bytes should be integer, got "%s" instead.', gettype($bytes_length)));
+            throw new ArgumentTypeException(sprintf('Length of bytes should be integer, got "%s" instead.', gettype($bytes_length)));
         }
 
         if ($bytes_length <= 0) {

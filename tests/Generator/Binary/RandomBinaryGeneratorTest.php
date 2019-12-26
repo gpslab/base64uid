@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 class RandomBinaryGeneratorTest extends TestCase
 {
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentTypeException
      */
     public function testUidLengthNoInteger()
     {
