@@ -46,6 +46,14 @@ class TimeBinaryGeneratorTest extends TestCase
     /**
      * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
      */
+    public function testTimeOffsetNoInteger()
+    {
+        $generator = new TimeBinaryGenerator(9, 45, '123');
+    }
+
+    /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     */
     public function testLowPrefixLength()
     {
         $generator = new TimeBinaryGenerator(-1, 45);
@@ -74,6 +82,27 @@ class TimeBinaryGeneratorTest extends TestCase
     {
         $min_time_length = strlen(decbin((int) floor(microtime(true) * 1000)));
         $generator = new TimeBinaryGenerator(0, $min_time_length - 1);
+    }
+
+    /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     */
+    public function testGrateTimeOffsetForCurrentTime()
+    {
+        $now = (int) floor(microtime(true) * 1000);
+        $generator = new TimeBinaryGenerator(0, 45, $now + 100);
+    }
+
+    /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     */
+    public function testLowTimeLengthForCurrentTimeWithTimeOffset()
+    {
+        $now = (int) floor(microtime(true) * 1000);
+        $offset = strtotime('2000-01-01 00:00:00') * 1000;
+        $min_time_length = strlen(decbin($offset).decbin($now));
+
+        $generator = new TimeBinaryGenerator(0, $min_time_length, $offset);
     }
 
     /**

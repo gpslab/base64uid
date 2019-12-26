@@ -29,6 +29,11 @@ class TimeBinaryGenerator implements BinaryGenerator
     /**
      * @var int
      */
+    private $time_offset;
+
+    /**
+     * @var int
+     */
     private $prefix_max_value;
 
     /**
@@ -47,10 +52,16 @@ class TimeBinaryGenerator implements BinaryGenerator
      *  44-bits = 11111111111111111111111111111111111111111111  = 17592186044415 = 2527-06-23 07:20:44 (UTC)
      *  45-bits = 111111111111111111111111111111111111111111111 = 35184372088831 = 3084-12-12 12:41:28 (UTC)
      *
+     * The time offset allows to move the starting point of time in microseconds,
+     * which reduces the size of the stored time:
+     *  0             = 1970-01-01 00:00:00 (UTC)
+     *  1577833200000 = 2020-01-01 00:00:00 (UTC)
+     *
      * @param int $prefix_length
      * @param int $time_length
+     * @param int $time_offset
      */
-    public function __construct($prefix_length = 9, $time_length = 45)
+    public function __construct($prefix_length = 9, $time_length = 45, $time_offset = 0)
     {
         if (PHP_INT_SIZE * 8 < 64) {
             throw new SmallBitModeException(sprintf('This generator require 64-bit mode of system. Your system support %d-bit mode.', PHP_INT_SIZE * 8));
@@ -64,6 +75,10 @@ class TimeBinaryGenerator implements BinaryGenerator
             throw new InvalidArgumentException(sprintf('Length of time for UID should be integer, got "%s" instead.', gettype($time_length)));
         }
 
+        if (!is_int($time_offset)) {
+            throw new InvalidArgumentException(sprintf('Time offset should be integer, got "%s" instead.', gettype($time_offset)));
+        }
+
         if ($prefix_length < 0) {
             throw new InvalidArgumentException(sprintf('Length of prefix for UID should be grate then or equal to "0", got "%d" instead.', $prefix_length));
         }
@@ -72,17 +87,28 @@ class TimeBinaryGenerator implements BinaryGenerator
             throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "0", got "%d" instead.', $time_length));
         }
 
+        if ($time_offset < 0) {
+            throw new InvalidArgumentException(sprintf('Time offset should be grate then or equal to "0", got "%d" instead.', $time_offset));
+        }
+
         if ($prefix_length + $time_length > 64 - 1) {
             throw new InvalidArgumentException(sprintf('Length of time and prefix for UID should be less than or equal to "%d", got "%d" instead.', 64 - 1, $prefix_length + $time_length));
         }
 
-        $min_time_length = strlen(decbin((int) floor(microtime(true) * 1000)));
+        $now = (int) floor(microtime(true) * 1000);
 
-        if ($time_length < $min_time_length) {
-            throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length, $time_length));
+        if ($time_offset > $now) {
+            throw new InvalidArgumentException(sprintf('Time offset should be grate then or equal to current time "%d", got "%d" instead.', $now, $time_offset));
+        }
+
+        $min_time_length = strlen(decbin($now));
+
+        if ($time_length < $min_time_length - $time_offset) {
+            throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length - $time_offset, $time_length));
         }
 
         $this->time_length = $time_length;
+        $this->time_offset = $time_offset;
         $this->suffix_length = $time_length - $prefix_length;
         $this->prefix_max_value = bindec(str_repeat('1', $prefix_length));
         $this->suffix_max_value = bindec(str_repeat('1', $this->suffix_length));
@@ -93,7 +119,7 @@ class TimeBinaryGenerator implements BinaryGenerator
      */
     public function generate()
     {
-        $time = (int) floor(microtime(true) * 1000);
+        $time = ((int) floor(microtime(true) * 1000) - $this->time_offset);
 
         if ($time >= 1 << $this->time_length) {
             throw new BitmapOverflowException(sprintf('Bitmap for time is overflow of %d bits.', $this->time_length));
