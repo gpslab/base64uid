@@ -40,7 +40,7 @@ class FloatingTimeGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testLowTimeLength()
     {
@@ -48,7 +48,7 @@ class FloatingTimeGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testBigTimeLength()
     {
@@ -56,7 +56,7 @@ class FloatingTimeGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testLowTimeLengthForCurrentTime()
     {
@@ -65,7 +65,7 @@ class FloatingTimeGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testGrateTimeOffsetForCurrentTime()
     {
@@ -74,7 +74,7 @@ class FloatingTimeGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testLowTimeLengthForCurrentTimeWithTimeOffset()
     {

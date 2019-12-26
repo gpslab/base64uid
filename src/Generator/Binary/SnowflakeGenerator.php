@@ -10,8 +10,8 @@
 
 namespace GpsLab\Component\Base64UID\Generator\Binary;
 
+use GpsLab\Component\Base64UID\Exception\ArgumentRangeException;
 use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
-use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class SnowflakeGenerator implements BinaryGenerator
@@ -88,19 +88,19 @@ class SnowflakeGenerator implements BinaryGenerator
         $max_data_center = bindec(str_repeat('1', self::DATA_CENTER_LENGTH));
 
         if ($data_center > $max_data_center) {
-            throw new InvalidArgumentException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_data_center, $data_center));
+            throw new ArgumentRangeException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_data_center, $data_center));
         }
 
         $max_machine = bindec(str_repeat('1', self::MACHINE_LENGTH));
 
         if ($machine > $max_machine) {
-            throw new InvalidArgumentException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_machine, $machine));
+            throw new ArgumentRangeException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_machine, $machine));
         }
 
         $now = (int) floor(microtime(true) * 1000);
 
         if ($time_offset > $now) {
-            throw new InvalidArgumentException(sprintf('Time offset should be grate then or equal to current time "%d", got "%d" instead.', $now, $time_offset));
+            throw new ArgumentRangeException(sprintf('Time offset should be grate then or equal to current time "%d", got "%d" instead.', $now, $time_offset));
         }
 
         $this->data_center = $data_center;

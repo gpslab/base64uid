@@ -64,7 +64,7 @@ class SnowflakeGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testRangeDataCenter()
     {
@@ -72,7 +72,7 @@ class SnowflakeGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testRangeMachine()
     {
@@ -80,7 +80,7 @@ class SnowflakeGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testGrateTimeOffsetForCurrentTime()
     {

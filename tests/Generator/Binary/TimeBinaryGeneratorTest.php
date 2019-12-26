@@ -60,7 +60,7 @@ class TimeBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testLowTimeLength()
     {
@@ -68,7 +68,7 @@ class TimeBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testBigPrefixLength()
     {
@@ -76,7 +76,7 @@ class TimeBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testLowTimeLengthForCurrentTime()
     {
@@ -85,7 +85,7 @@ class TimeBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testGrateTimeOffsetForCurrentTime()
     {
@@ -94,7 +94,7 @@ class TimeBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ArgumentRangeException
      */
     public function testLowTimeLengthForCurrentTimeWithTimeOffset()
     {

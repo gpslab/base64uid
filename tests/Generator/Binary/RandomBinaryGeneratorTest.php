@@ -24,7 +24,7 @@ class RandomBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ZeroArgumentException
      */
     public function testNegativeUidLength()
     {
@@ -32,7 +32,7 @@ class RandomBinaryGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ZeroArgumentException
      */
     public function testZeroUidLength()
     {

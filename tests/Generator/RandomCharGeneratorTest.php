@@ -47,14 +47,6 @@ class RandomCharGeneratorTest extends TestCase
         $generator = new RandomCharGenerator(0);
     }
 
-    /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
-     */
-    public function testInvalidTypeOfCharset()
-    {
-        $generator = new RandomCharGenerator(1, 1);
-    }
-
     public function testGenerateDefault()
     {
         $generator = new RandomCharGenerator();
