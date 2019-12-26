@@ -37,4 +37,10 @@ class RandomBytesGeneratorTest extends TestCase
         $id = $generator->generate();
         $this->assertRegExp('/^[\/+a-zA-Z0-9]+$/', $id);
     }
+
+    public function testNotSame()
+    {
+        $generator = new RandomBytesGenerator();
+        self::assertNotSame($generator->generate(), $generator->generate());
+    }
 }

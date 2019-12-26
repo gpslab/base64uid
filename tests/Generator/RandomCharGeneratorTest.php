@@ -80,4 +80,10 @@ class RandomCharGeneratorTest extends TestCase
         $this->assertSame(11, strlen($id));
         $this->assertRegExp('/^[a-f0-9]{11}$/', $id);
     }
+
+    public function testNotSame()
+    {
+        $generator = new RandomCharGenerator();
+        self::assertNotSame($generator->generate(), $generator->generate());
+    }
 }

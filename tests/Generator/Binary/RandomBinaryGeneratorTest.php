@@ -59,4 +59,10 @@ class RandomBinaryGeneratorTest extends TestCase
         $id = $generator->generate();
         $this->assertInternalType('integer', $id);
     }
+
+    public function testNotSame()
+    {
+        $generator = new RandomBinaryGenerator(11);
+        self::assertNotSame($generator->generate(), $generator->generate());
+    }
 }

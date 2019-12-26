@@ -131,4 +131,10 @@ class TimeBinaryGeneratorTest extends TestCase
         $id = $generator->generate();
         $this->assertInternalType('integer', $id);
     }
+
+    public function testNotSame()
+    {
+        $generator = new TimeBinaryGenerator();
+        self::assertNotSame($generator->generate(), $generator->generate());
+    }
 }

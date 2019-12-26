@@ -118,4 +118,10 @@ class FloatingTimeGeneratorTest extends TestCase
         $id = $generator->generate();
         $this->assertInternalType('integer', $id);
     }
+
+    public function testNotSame()
+    {
+        $generator = new FloatingTimeGenerator();
+        self::assertNotSame($generator->generate(), $generator->generate());
+    }
 }
