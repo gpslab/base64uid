@@ -10,12 +10,16 @@
 
 namespace GpsLab\Component\Base64UID;
 
+use GpsLab\Component\Base64UID\Generator\RandomCharGenerator;
+
 class Base64UID
 {
     /**
+     * TODO use private const after drop PHP < 7.1.
+     *
      * @var string
      */
-    private static $default_charset = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
+    private static $DEFAULT_CHARSET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
 
     /**
      * @param int    $length
@@ -25,13 +29,8 @@ class Base64UID
      */
     public static function generate($length = 10, $charset = '')
     {
-        $charset = $charset ?: self::$default_charset;
-        $charset_size = strlen($charset);
-        $uid = '';
-        while ($length-- > 0) {
-            $uid .= $charset[random_int(0, $charset_size - 1)];
-        }
+        $generator = new RandomCharGenerator($length, $charset ?: self::$DEFAULT_CHARSET);
 
-        return $uid;
+        return $generator->generate();
     }
 }
