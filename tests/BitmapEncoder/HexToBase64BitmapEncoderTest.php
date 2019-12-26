@@ -30,8 +30,14 @@ class HexToBase64BitmapEncoderTest extends TestCase
      */
     public function getBitmaps()
     {
+        if (defined('PHP_INT_MIN')) {
+            $int_min = PHP_INT_MIN;
+        } else { // PHP < 7.0
+            $int_min = (PHP_INT_MAX * -1) - 1;
+        }
+
         return array(
-            array(PHP_INT_MIN, 'gAAAAAAAAAA'),
+            array($int_min, 'gAAAAAAAAAA'),
             array(PHP_INT_MAX, 'f/////////8'),
             array(1234567890, 'SZYC0g'),
             array(010110101101110101101, 'IJBBIJIIJBA'),
