@@ -10,8 +10,6 @@
 
 namespace GpsLab\Component\Base64UID;
 
-use GpsLab\Component\Base64UID\Generator\RandomCharGenerator;
-
 class Base64UID
 {
     /**
@@ -29,8 +27,13 @@ class Base64UID
      */
     public static function generate($length = 10, $charset = '')
     {
-        $generator = new RandomCharGenerator($length, $charset ?: self::$DEFAULT_CHARSET);
+        $charset = $charset ?: self::$DEFAULT_CHARSET;
+        $charset_size = strlen($charset);
+        $uid = '';
+        while ($length-- > 0) {
+            $uid .= $charset[random_int(0, $charset_size - 1)];
+        }
 
-        return $generator->generate();
+        return $uid;
     }
 }
