@@ -8,20 +8,14 @@
  * @license   http://opensource.org/licenses/MIT
  */
 
-namespace GpsLab\Component\Base64UID\Generator;
+namespace GpsLab\Component\Base64UID\Generator\Binary;
 
-use GpsLab\Component\Base64UID\BitmapEncoder\BitmapEncoder;
 use GpsLab\Component\Base64UID\Exception\BitmapOverflowException;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 use GpsLab\Component\Base64UID\Exception\SmallBitModeException;
 
-class TimeBinaryGenerator implements BinaryGenerator, Generator
+class TimeBinaryGenerator implements BinaryGenerator
 {
-    /**
-     * @var BitmapEncoder
-     */
-    private $encoder;
-
     /**
      * @var int
      */
@@ -53,11 +47,10 @@ class TimeBinaryGenerator implements BinaryGenerator, Generator
      *  44-bits = 11111111111111111111111111111111111111111111  = 17592186044415 = 2527-06-23 07:20:44 (UTC)
      *  45-bits = 111111111111111111111111111111111111111111111 = 35184372088831 = 3084-12-12 12:41:28 (UTC)
      *
-     * @param BitmapEncoder $encoder
-     * @param int           $prefix_length
-     * @param int           $time_length
+     * @param int $prefix_length
+     * @param int $time_length
      */
-    public function __construct(BitmapEncoder $encoder, $prefix_length = 9, $time_length = 45)
+    public function __construct($prefix_length = 9, $time_length = 45)
     {
         if (PHP_INT_SIZE * 8 < 64) {
             throw new SmallBitModeException(sprintf('This generator require 64-bit mode of system. Your system support %d-bit mode.', PHP_INT_SIZE * 8));
@@ -82,7 +75,6 @@ class TimeBinaryGenerator implements BinaryGenerator, Generator
             throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length, $prefix_length));
         }
 
-        $this->encoder = $encoder;
         $this->time_length = $time_length;
         $this->suffix_length = $time_length - $prefix_length;
 
@@ -100,7 +92,7 @@ class TimeBinaryGenerator implements BinaryGenerator, Generator
     /**
      * @return int
      */
-    public function generateBitmap()
+    public function generate()
     {
         $time = (int) floor(microtime(true) * 1000);
 
@@ -117,13 +109,5 @@ class TimeBinaryGenerator implements BinaryGenerator, Generator
         $uid |= $suffix;
 
         return $uid;
-    }
-
-    /**
-     * @return string
-     */
-    public function generate()
-    {
-        return $this->encoder->encoder($this->generateBitmap());
     }
 }

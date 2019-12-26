@@ -8,24 +8,13 @@
  * @license   http://opensource.org/licenses/MIT
  */
 
-namespace GpsLab\Component\Base64UID\Tests\Generator;
+namespace GpsLab\Component\Base64UID\Tests\Generator\Binary;
 
-use GpsLab\Component\Base64UID\BitmapEncoder\HexToBase64BitmapEncoder;
-use GpsLab\Component\Base64UID\Generator\TimeBinaryGenerator;
+use GpsLab\Component\Base64UID\Generator\Binary\TimeBinaryGenerator;
 use PHPUnit\Framework\TestCase;
 
 class TimeBinaryGeneratorTest extends TestCase
 {
-    /**
-     * @var HexToBase64BitmapEncoder
-     */
-    private $encoder;
-
-    protected function setUp()
-    {
-        $this->encoder = new HexToBase64BitmapEncoder();
-    }
-
     /**
      * @expectedException \GpsLab\Component\Base64UID\Exception\SmallBitModeException
      */
@@ -35,7 +24,7 @@ class TimeBinaryGeneratorTest extends TestCase
             $this->markTestSkipped('This test is not reproducible on this architecture.');
         }
 
-        $generator = new TimeBinaryGenerator($this->encoder, 9, 45);
+        $generator = new TimeBinaryGenerator(9, 45);
     }
 
     /**
@@ -43,7 +32,7 @@ class TimeBinaryGeneratorTest extends TestCase
      */
     public function testPrefixLengthNoInteger()
     {
-        $generator = new TimeBinaryGenerator($this->encoder, '9', 45);
+        $generator = new TimeBinaryGenerator('9', 45);
     }
 
     /**
@@ -51,7 +40,7 @@ class TimeBinaryGeneratorTest extends TestCase
      */
     public function testTimeLengthNoInteger()
     {
-        $generator = new TimeBinaryGenerator($this->encoder, 9, '45');
+        $generator = new TimeBinaryGenerator(9, '45');
     }
 
     /**
@@ -59,7 +48,7 @@ class TimeBinaryGeneratorTest extends TestCase
      */
     public function testLowPrefixLength()
     {
-        $generator = new TimeBinaryGenerator($this->encoder, -1, 45);
+        $generator = new TimeBinaryGenerator(-1, 45);
     }
 
     /**
@@ -67,7 +56,7 @@ class TimeBinaryGeneratorTest extends TestCase
      */
     public function testLowTimeLength()
     {
-        $generator = new TimeBinaryGenerator($this->encoder, 9, 0);
+        $generator = new TimeBinaryGenerator(9, 0);
     }
 
     /**
@@ -75,7 +64,7 @@ class TimeBinaryGeneratorTest extends TestCase
      */
     public function testBigPrefixLength()
     {
-        $generator = new TimeBinaryGenerator($this->encoder, 19, 45);
+        $generator = new TimeBinaryGenerator(19, 45);
     }
 
     /**
@@ -84,7 +73,7 @@ class TimeBinaryGeneratorTest extends TestCase
     public function testLowTimeLengthForCurrentTime()
     {
         $min_time_length = strlen(decbin((int) floor(microtime(true) * 1000)));
-        $generator = new TimeBinaryGenerator($this->encoder, 0, $min_time_length - 1);
+        $generator = new TimeBinaryGenerator(0, $min_time_length - 1);
     }
 
     /**
@@ -109,9 +98,8 @@ class TimeBinaryGeneratorTest extends TestCase
      */
     public function testGenerate($prefix_length, $time_length)
     {
-        $generator = new TimeBinaryGenerator($this->encoder, $prefix_length, $time_length);
+        $generator = new TimeBinaryGenerator($prefix_length, $time_length);
         $id = $generator->generate();
-        $this->assertSame(11, strlen($id));
-        $this->assertRegExp('/^[\/+a-zA-Z0-9]{11}$/', $id);
+        $this->assertInternalType('integer', $id);
     }
 }

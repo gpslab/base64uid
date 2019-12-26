@@ -8,12 +8,12 @@
  * @license   http://opensource.org/licenses/MIT
  */
 
-namespace GpsLab\Component\Base64UID\Generator;
+namespace GpsLab\Component\Base64UID\Generator\Binary;
 
 interface BinaryGenerator
 {
     /**
      * @return int
      */
-    public function generateBitmap();
+    public function generate();
 }

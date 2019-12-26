@@ -8,28 +8,21 @@
  * @license   http://opensource.org/licenses/MIT
  */
 
-namespace GpsLab\Component\Base64UID\Generator;
+namespace GpsLab\Component\Base64UID\Generator\Binary;
 
-use GpsLab\Component\Base64UID\BitmapEncoder\BitmapEncoder;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 
-class RandomBinaryGenerator implements BinaryGenerator, Generator
+class RandomBinaryGenerator implements BinaryGenerator
 {
-    /**
-     * @var BitmapEncoder
-     */
-    private $encoder;
-
     /**
      * @var int
      */
     private $uid_bitmap_length;
 
     /**
-     * @param BitmapEncoder $encoder
-     * @param int           $uid_bitmap_length
+     * @param int $uid_bitmap_length
      */
-    public function __construct(BitmapEncoder $encoder, $uid_bitmap_length)
+    public function __construct($uid_bitmap_length)
     {
         if (!is_int($uid_bitmap_length)) {
             throw new InvalidArgumentException(sprintf('Length of bitmap for UID should be integer, got "%s" instead.', gettype($uid_bitmap_length)));
@@ -41,14 +34,13 @@ class RandomBinaryGenerator implements BinaryGenerator, Generator
             throw new InvalidArgumentException(sprintf('Length of bitmap for UID should be less than or equal to "%d", got "%d" instead.', PHP_INT_SIZE * 8, $uid_bitmap_length));
         }
 
-        $this->encoder = $encoder;
         $this->uid_bitmap_length = $uid_bitmap_length;
     }
 
     /**
      * @return int
      */
-    public function generateBitmap()
+    public function generate()
     {
         $uid = 0;
         for ($i = 0; $i < $this->uid_bitmap_length; ++$i) {
@@ -58,13 +50,5 @@ class RandomBinaryGenerator implements BinaryGenerator, Generator
         }
 
         return $uid;
-    }
-
-    /**
-     * @return string
-     */
-    public function generate()
-    {
-        return $this->encoder->encoder($this->generateBitmap());
     }
 }
