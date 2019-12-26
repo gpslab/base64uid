@@ -17,6 +17,13 @@ use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 class RandomCharGenerator implements Generator
 {
     /**
+     * TODO use private const after drop PHP < 7.1.
+     *
+     * @var string
+     */
+    private static $DEFAULT_CHARSET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
+
+    /**
      * @var int
      */
     private $uid_length;
@@ -35,10 +42,13 @@ class RandomCharGenerator implements Generator
      * @param int    $uid_length
      * @param string $charset
      */
-    public function __construct(
-        $uid_length = 10,
-        $charset = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-'
-    ) {
+    public function __construct($uid_length = 10, $charset = null)
+    {
+        // TODO move to method arguments after drop PHP < 7.1
+        if ($charset === null) {
+            $charset = self::$DEFAULT_CHARSET;
+        }
+
         if (!is_int($uid_length)) {
             throw new ArgumentTypeException(sprintf('Length of UID should be integer, got "%s" instead.', gettype($uid_length)));
         }

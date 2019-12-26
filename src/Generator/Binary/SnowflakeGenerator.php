@@ -16,11 +16,26 @@ use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class SnowflakeGenerator implements BinaryGenerator
 {
-    const DATA_CENTER_LENGTH = 5; // data center value 0-31
+    /**
+     * TODO use private const after drop PHP < 7.1.
+     *
+     * @var int
+     */
+    private static $DATA_CENTER_LENGTH = 5; // data center value 0-31
 
-    const MACHINE_LENGTH = 7; // machine value 0-127
+    /**
+     * TODO use private const after drop PHP < 7.1.
+     *
+     * @var int
+     */
+    private static $MACHINE_LENGTH = 7; // machine value 0-127
 
-    const SEQUENCE_LENGTH = 6; // sequence value 0-63
+    /**
+     * TODO use private const after drop PHP < 7.1.
+     *
+     * @var int
+     */
+    private static $SEQUENCE_LENGTH = 6; // sequence value 0-63
 
     /**
      * @var int
@@ -85,13 +100,13 @@ class SnowflakeGenerator implements BinaryGenerator
             throw new ZeroArgumentException(sprintf('Time offset should be grate then "0", got "%d" instead.', $time_offset));
         }
 
-        $max_data_center = bindec(str_repeat('1', self::DATA_CENTER_LENGTH));
+        $max_data_center = bindec(str_repeat('1', self::$DATA_CENTER_LENGTH));
 
         if ($data_center > $max_data_center) {
             throw new ArgumentRangeException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_data_center, $data_center));
         }
 
-        $max_machine = bindec(str_repeat('1', self::MACHINE_LENGTH));
+        $max_machine = bindec(str_repeat('1', self::$MACHINE_LENGTH));
 
         if ($machine > $max_machine) {
             throw new ArgumentRangeException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_machine, $machine));
@@ -122,9 +137,9 @@ class SnowflakeGenerator implements BinaryGenerator
         }
 
         $uid = 1 << 64 - 1;
-        $uid |= $time << self::DATA_CENTER_LENGTH + self::MACHINE_LENGTH + self::SEQUENCE_LENGTH;
-        $uid |= $this->data_center << self::MACHINE_LENGTH + self::SEQUENCE_LENGTH;
-        $uid |= $this->machine << self::SEQUENCE_LENGTH;
+        $uid |= $time << self::$DATA_CENTER_LENGTH + self::$MACHINE_LENGTH + self::$SEQUENCE_LENGTH;
+        $uid |= $this->data_center << self::$MACHINE_LENGTH + self::$SEQUENCE_LENGTH;
+        $uid |= $this->machine << self::$SEQUENCE_LENGTH;
         $uid |= $this->sequence;
 
         return $uid;
