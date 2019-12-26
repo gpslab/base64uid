@@ -26,7 +26,8 @@ class RandomBinaryGenerator implements BinaryGenerator, Generator
     private $uid_bitmap_length;
 
     /**
-     * @param $uid_bitmap_length
+     * @param BitmapEncoder $encoder
+     * @param int           $uid_bitmap_length
      */
     public function __construct(BitmapEncoder $encoder, $uid_bitmap_length)
     {
