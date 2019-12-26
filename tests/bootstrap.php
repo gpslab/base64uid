@@ -7,6 +7,7 @@
  * @copyright Copyright (c) 2011, Peter Gribanov
  * @license   http://opensource.org/licenses/MIT
  */
+
 $file = __DIR__.'/../vendor/autoload.php';
 
 if (!file_exists($file)) {
