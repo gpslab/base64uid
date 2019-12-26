@@ -12,7 +12,7 @@ namespace GpsLab\Component\Base64UID\Generator;
 
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 
-class RandomCharGenerator
+class RandomCharGenerator implements Generator
 {
     /**
      * @var int
