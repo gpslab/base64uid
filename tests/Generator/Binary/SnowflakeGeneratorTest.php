@@ -113,4 +113,10 @@ class SnowflakeGeneratorTest extends TestCase
         $id = $generator->generate();
         $this->assertInternalType('integer', $id);
     }
+
+    public function testIncrementSequence()
+    {
+        $generator = new SnowflakeGenerator(1, 1);
+        self::assertNotSame($generator->generate(), $generator->generate());
+    }
 }
