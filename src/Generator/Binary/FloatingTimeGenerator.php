@@ -20,6 +20,11 @@ class FloatingTimeGenerator implements BinaryGenerator
     private $time_length;
 
     /**
+     * @var int
+     */
+    private $time_offset;
+
+    /**
      * Bitmap with floating time.
      *
      * The time length defines the limit of the stored date:
@@ -30,25 +35,46 @@ class FloatingTimeGenerator implements BinaryGenerator
      *  44-bits = 11111111111111111111111111111111111111111111  = 17592186044415 = 2527-06-23 07:20:44 (UTC)
      *  45-bits = 111111111111111111111111111111111111111111111 = 35184372088831 = 3084-12-12 12:41:28 (UTC)
      *
+     * The time offset allows to move the starting point of time in microseconds,
+     * which reduces the size of the stored time:
+     *  0             = 1970-01-01 00:00:00 (UTC)
+     *  1577833200000 = 2020-01-01 00:00:00 (UTC)
+     *
      * @param int $time_length
+     * @param int $time_offset
      */
-    public function __construct($time_length = 45)
+    public function __construct($time_length = 45, $time_offset = 0)
     {
         if (!is_int($time_length)) {
             throw new InvalidArgumentException(sprintf('Length of time for UID should be integer, got "%s" instead.', gettype($time_length)));
         }
+
+        if (!is_int($time_offset)) {
+            throw new InvalidArgumentException(sprintf('Time offset should be integer, got "%s" instead.', gettype($time_offset)));
+        }
+
         if ($time_length < 0) {
             throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "0", got "%d" instead.', $time_length));
         }
+
         if ($time_length > 64 - 1) {
             throw new InvalidArgumentException(sprintf('Length of time and prefix for UID should be less than or equal to "%d", got "%d" instead.', 64 - 1, $time_length));
         }
-        $min_time_length = strlen(decbin((int) floor(microtime(true) * 1000)));
-        if ($time_length < $min_time_length) {
-            throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length, $time_length));
+
+        $now = (int) floor(microtime(true) * 1000);
+
+        if ($time_offset > $now) {
+            throw new InvalidArgumentException(sprintf('Time offset should be grate then or equal to current time "%d", got "%d" instead.', $now, $time_offset));
+        }
+
+        $min_time_length = strlen(decbin($now));
+
+        if ($time_length < $min_time_length - $time_offset) {
+            throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length - $time_offset, $time_length));
         }
 
         $this->time_length = $time_length;
+        $this->time_offset = $time_offset;
     }
 
     /**
@@ -56,7 +82,7 @@ class FloatingTimeGenerator implements BinaryGenerator
      */
     public function generate()
     {
-        $time = floor(microtime(true) * 1000);
+        $time = ((int) floor(microtime(true) * 1000) - $this->time_offset);
 
         $prefix_length = random_int(0, 64 - $this->time_length - 1);
         $prefix = random_int(0, bindec(str_repeat('1', $prefix_length)));
