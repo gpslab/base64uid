@@ -54,9 +54,25 @@ class TimeBinaryGeneratorTest extends TestCase
     /**
      * @expectedException \GpsLab\Component\Base64UID\Exception\ZeroArgumentException
      */
-    public function testLowPrefixLength()
+    public function testNegativePrefixLength()
     {
         $generator = new TimeBinaryGenerator(-1, 45);
+    }
+
+    /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ZeroArgumentException
+     */
+    public function testNegativeTimeLength()
+    {
+        $generator = new TimeBinaryGenerator(9, -1);
+    }
+
+    /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ZeroArgumentException
+     */
+    public function testNegativeTimeOffset()
+    {
+        $generator = new TimeBinaryGenerator(9, 45, -1);
     }
 
     /**

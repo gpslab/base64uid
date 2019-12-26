@@ -123,9 +123,13 @@ class TimeBinaryGenerator implements BinaryGenerator
     {
         $time = ((int) floor(microtime(true) * 1000) - $this->time_offset);
 
+        // @codeCoverageIgnoreStart
+        // overflow validation is in the constructor,
+        // but there is a chance that overflow will occur in the process of using this service
         if ($time >= 1 << $this->time_length) {
             throw new BitmapOverflowException(sprintf('Bitmap for time is overflow of %d bits.', $this->time_length));
         }
+        // @codeCoverageIgnoreEnd
 
         $prefix = random_int(0, $this->prefix_max_value);
         $suffix = random_int(0, $this->suffix_max_value);
