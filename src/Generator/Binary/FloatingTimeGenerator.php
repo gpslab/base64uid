@@ -59,6 +59,10 @@ class FloatingTimeGenerator implements BinaryGenerator
             throw new ZeroArgumentException(sprintf('Length of time for UID should be grate then or equal to "0", got "%d" instead.', $time_length));
         }
 
+        if ($time_offset < 0) {
+            throw new ZeroArgumentException(sprintf('Time offset should be grate then or equal to "0", got "%d" instead.', $time_length));
+        }
+
         if ($time_length > 64 - 1) {
             throw new InvalidArgumentException(sprintf('Length of time and prefix for UID should be less than or equal to "%d", got "%d" instead.', 64 - 1, $time_length));
         }

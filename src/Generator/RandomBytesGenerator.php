@@ -30,7 +30,7 @@ class RandomBytesGenerator implements Generator
         }
 
         if ($bytes_length <= 0) {
-            throw new ZeroArgumentException(sprintf('Length of bytes should be grate then 0, got "%d" instead.', $bytes_length));
+            throw new ZeroArgumentException(sprintf('Length of bytes should be grate then "0", got "%d" instead.', $bytes_length));
         }
 
         $this->bytes_length = $bytes_length;

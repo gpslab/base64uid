@@ -48,7 +48,7 @@ class RandomCharGenerator implements Generator
         }
 
         if ($uid_length <= 0) {
-            throw new ZeroArgumentException(sprintf('Length of UID should be grate then 0, got "%d" instead.', $uid_length));
+            throw new ZeroArgumentException(sprintf('Length of UID should be grate then "0", got "%d" instead.', $uid_length));
         }
 
         if ($charset === '') {

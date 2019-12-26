@@ -30,7 +30,7 @@ class RandomBinaryGenerator implements BinaryGenerator
         }
 
         if ($uid_bitmap_length <= 0) {
-            throw new ZeroArgumentException(sprintf('Length of bitmap for UID should be grate then 0, got "%d" instead.', $uid_bitmap_length));
+            throw new ZeroArgumentException(sprintf('Length of bitmap for UID should be grate then "0", got "%d" instead.', $uid_bitmap_length));
         }
 
         $this->uid_bitmap_length = $uid_bitmap_length;
