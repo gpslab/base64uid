@@ -18,6 +18,22 @@ class RandomCharGeneratorTest extends TestCase
     /**
      * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
      */
+    public function testUidLengthNoInteger()
+    {
+        $generator = new RandomCharGenerator('9');
+    }
+
+    /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     */
+    public function testCharsetNoString()
+    {
+        $generator = new RandomCharGenerator(11, 11);
+    }
+
+    /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     */
     public function testNegativeUidLength()
     {
         $generator = new RandomCharGenerator(-1);

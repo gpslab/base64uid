@@ -18,6 +18,14 @@ class RandomBinaryGeneratorTest extends TestCase
     /**
      * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
      */
+    public function testUidLengthNoInteger()
+    {
+        $generator = new RandomBinaryGenerator('9');
+    }
+
+    /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     */
     public function testNegativeUidLength()
     {
         $generator = new RandomBinaryGenerator(-1);
