@@ -11,7 +11,7 @@
 namespace GpsLab\Component\Base64UID\Generator;
 
 use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
-use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
+use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class RandomBytesGenerator implements Generator
 {
@@ -30,7 +30,7 @@ class RandomBytesGenerator implements Generator
         }
 
         if ($bytes_length <= 0) {
-            throw new InvalidArgumentException(sprintf('Length of bytes should be grate then 0, got "%d" instead.', $bytes_length));
+            throw new ZeroArgumentException(sprintf('Length of bytes should be grate then 0, got "%d" instead.', $bytes_length));
         }
 
         $this->bytes_length = $bytes_length;

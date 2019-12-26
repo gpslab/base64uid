@@ -32,6 +32,14 @@ class FloatingTimeGeneratorTest extends TestCase
     }
 
     /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ZeroArgumentException
+     */
+    public function testZeroTimeLength()
+    {
+        $generator = new FloatingTimeGenerator(-1);
+    }
+
+    /**
      * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
      */
     public function testLowTimeLength()

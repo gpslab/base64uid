@@ -14,6 +14,7 @@ use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
 use GpsLab\Component\Base64UID\Exception\BitmapOverflowException;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
 use GpsLab\Component\Base64UID\Exception\SmallBitModeException;
+use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class TimeBinaryGenerator implements BinaryGenerator
 {
@@ -81,15 +82,15 @@ class TimeBinaryGenerator implements BinaryGenerator
         }
 
         if ($prefix_length < 0) {
-            throw new InvalidArgumentException(sprintf('Length of prefix for UID should be grate then or equal to "0", got "%d" instead.', $prefix_length));
+            throw new ZeroArgumentException(sprintf('Length of prefix for UID should be grate then or equal to "0", got "%d" instead.', $prefix_length));
         }
 
         if ($time_length < 0) {
-            throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "0", got "%d" instead.', $time_length));
+            throw new ZeroArgumentException(sprintf('Length of time for UID should be grate then or equal to "0", got "%d" instead.', $time_length));
         }
 
         if ($time_offset < 0) {
-            throw new InvalidArgumentException(sprintf('Time offset should be grate then or equal to "0", got "%d" instead.', $time_offset));
+            throw new ZeroArgumentException(sprintf('Time offset should be grate then or equal to "0", got "%d" instead.', $time_offset));
         }
 
         if ($prefix_length + $time_length > 64 - 1) {

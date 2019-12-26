@@ -24,7 +24,7 @@ class RandomBytesGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ZeroArgumentException
      */
     public function testZeroBytesLength()
     {

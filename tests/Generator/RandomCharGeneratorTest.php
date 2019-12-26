@@ -32,7 +32,7 @@ class RandomCharGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ZeroArgumentException
      */
     public function testNegativeUidLength()
     {
@@ -40,7 +40,7 @@ class RandomCharGeneratorTest extends TestCase
     }
 
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\InvalidArgumentException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ZeroArgumentException
      */
     public function testZeroUidLength()
     {

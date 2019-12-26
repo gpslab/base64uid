@@ -12,6 +12,7 @@ namespace GpsLab\Component\Base64UID\Generator\Binary;
 
 use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
+use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class FloatingTimeGenerator implements BinaryGenerator
 {
@@ -55,7 +56,7 @@ class FloatingTimeGenerator implements BinaryGenerator
         }
 
         if ($time_length < 0) {
-            throw new InvalidArgumentException(sprintf('Length of time for UID should be grate then or equal to "0", got "%d" instead.', $time_length));
+            throw new ZeroArgumentException(sprintf('Length of time for UID should be grate then or equal to "0", got "%d" instead.', $time_length));
         }
 
         if ($time_length > 64 - 1) {

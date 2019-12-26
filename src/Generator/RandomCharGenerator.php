@@ -12,6 +12,7 @@ namespace GpsLab\Component\Base64UID\Generator;
 
 use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
 use GpsLab\Component\Base64UID\Exception\InvalidArgumentException;
+use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class RandomCharGenerator implements Generator
 {
@@ -47,7 +48,7 @@ class RandomCharGenerator implements Generator
         }
 
         if ($uid_length <= 0) {
-            throw new InvalidArgumentException(sprintf('Length of UID should be grate then 0, got "%d" instead.', $uid_length));
+            throw new ZeroArgumentException(sprintf('Length of UID should be grate then 0, got "%d" instead.', $uid_length));
         }
 
         if ($charset === '') {
