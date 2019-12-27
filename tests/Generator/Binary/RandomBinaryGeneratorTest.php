@@ -38,6 +38,7 @@ class RandomBinaryGeneratorTest extends TestCase
     {
         $generator = new RandomBinaryGenerator(0);
     }
+
     /**
      * @expectedException \GpsLab\Component\Base64UID\Exception\SmallBitModeException
      */

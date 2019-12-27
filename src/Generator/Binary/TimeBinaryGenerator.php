@@ -66,7 +66,7 @@ class TimeBinaryGenerator implements BinaryGenerator
     public function __construct($prefix_length = 9, $time_length = 45, $time_offset = 0)
     {
         if (PHP_INT_SIZE * 8 < 64) {
-            throw new SmallBitModeException(sprintf('This generator require 64-bit mode of system. Your system support %d-bit mode.', PHP_INT_SIZE * 8));
+            throw new SmallBitModeException(sprintf('This generator require 64-bit mode of processor architecture. Your processor architecture support %d-bit mode.', PHP_INT_SIZE * 8));
         }
 
         if (!is_int($prefix_length)) {

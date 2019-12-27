@@ -18,13 +18,13 @@ class TimeBinaryGeneratorTest extends TestCase
     /**
      * @expectedException \GpsLab\Component\Base64UID\Exception\SmallBitModeException
      */
-    public function testSmallBitMode()
+    public function testProcessorArchitectureException()
     {
         if (PHP_INT_SIZE * 8 >= 64) {
-            $this->markTestSkipped('This test is not reproducible on this architecture.');
+            $this->markTestSkipped('This test is not reproducible on this processor architecture.');
         }
 
-        $generator = new TimeBinaryGenerator(9, 45);
+        $generator = new TimeBinaryGenerator();
     }
 
     /**
