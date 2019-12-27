@@ -38,10 +38,17 @@ class RandomBinaryGeneratorTest extends TestCase
     {
         $generator = new RandomBinaryGenerator(0);
     }
+    /**
+     * @expectedException \GpsLab\Component\Base64UID\Exception\SmallBitModeException
+     */
+    public function testProcessorArchitectureException()
+    {
+        $generator = new RandomBinaryGenerator(PHP_INT_SIZE * 8);
+    }
 
     public function testGenerateDefault()
     {
-        $generator = new RandomBinaryGenerator(PHP_INT_SIZE * 8);
+        $generator = new RandomBinaryGenerator((PHP_INT_SIZE * 8) - 1);
         $id = $generator->generate();
         $this->assertInternalType('integer', $id);
     }
