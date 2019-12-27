@@ -65,9 +65,12 @@ class TimeBinaryGenerator implements BinaryGenerator
      */
     public function __construct($prefix_length = 9, $time_length = 45, $time_offset = 0)
     {
+        // @codeCoverageIgnoreStart
+        // can't reproduce this condition in tests
         if (PHP_INT_SIZE * 8 < 64) {
             throw new ProcessorArchitectureException(sprintf('This generator require 64-bit mode of processor architecture. Your processor architecture support %d-bit mode.', PHP_INT_SIZE * 8));
         }
+        // @codeCoverageIgnoreEnd
 
         if (!is_int($prefix_length)) {
             throw new ArgumentTypeException(sprintf('Length of prefix for UID should be integer, got "%s" instead.', gettype($prefix_length)));
