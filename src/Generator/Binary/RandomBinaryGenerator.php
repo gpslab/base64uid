@@ -11,7 +11,7 @@
 namespace GpsLab\Component\Base64UID\Generator\Binary;
 
 use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
-use GpsLab\Component\Base64UID\Exception\SmallBitModeException;
+use GpsLab\Component\Base64UID\Exception\ProcessorArchitectureException;
 use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class RandomBinaryGenerator implements BinaryGenerator
@@ -35,7 +35,7 @@ class RandomBinaryGenerator implements BinaryGenerator
         }
 
         if ($uid_bitmap_length >= PHP_INT_SIZE * 8) {
-            throw new SmallBitModeException(sprintf('Your processor architecture support %d-bit mode, got "%d" instead.', PHP_INT_SIZE * 8, $uid_bitmap_length));
+            throw new ProcessorArchitectureException(sprintf('Your processor architecture support %d-bit mode, got "%d" instead.', PHP_INT_SIZE * 8, $uid_bitmap_length));
         }
 
         $this->uid_bitmap_length = $uid_bitmap_length;

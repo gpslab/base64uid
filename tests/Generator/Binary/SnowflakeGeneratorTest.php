@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 class SnowflakeGeneratorTest extends TestCase
 {
     /**
-     * @expectedException \GpsLab\Component\Base64UID\Exception\SmallBitModeException
+     * @expectedException \GpsLab\Component\Base64UID\Exception\ProcessorArchitectureException
      */
     public function testProcessorArchitectureException()
     {

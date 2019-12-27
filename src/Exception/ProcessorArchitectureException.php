@@ -10,6 +10,6 @@
 
 namespace GpsLab\Component\Base64UID\Exception;
 
-class SmallBitModeException extends \RuntimeException
+class ProcessorArchitectureException extends \RuntimeException
 {
 }

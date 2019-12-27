@@ -12,7 +12,7 @@ namespace GpsLab\Component\Base64UID\Generator\Binary;
 
 use GpsLab\Component\Base64UID\Exception\ArgumentRangeException;
 use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
-use GpsLab\Component\Base64UID\Exception\SmallBitModeException;
+use GpsLab\Component\Base64UID\Exception\ProcessorArchitectureException;
 use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class FloatingTimeGenerator implements BinaryGenerator
@@ -49,7 +49,7 @@ class FloatingTimeGenerator implements BinaryGenerator
     public function __construct($time_length = 45, $time_offset = 0)
     {
         if (PHP_INT_SIZE * 8 < 64) {
-            throw new SmallBitModeException(sprintf('This generator require 64-bit mode of processor architecture. Your processor architecture support %d-bit mode.', PHP_INT_SIZE * 8));
+            throw new ProcessorArchitectureException(sprintf('This generator require 64-bit mode of processor architecture. Your processor architecture support %d-bit mode.', PHP_INT_SIZE * 8));
         }
 
         if (!is_int($time_length)) {

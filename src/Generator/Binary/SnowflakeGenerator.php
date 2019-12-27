@@ -12,7 +12,7 @@ namespace GpsLab\Component\Base64UID\Generator\Binary;
 
 use GpsLab\Component\Base64UID\Exception\ArgumentRangeException;
 use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
-use GpsLab\Component\Base64UID\Exception\SmallBitModeException;
+use GpsLab\Component\Base64UID\Exception\ProcessorArchitectureException;
 use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class SnowflakeGenerator implements BinaryGenerator
@@ -78,7 +78,7 @@ class SnowflakeGenerator implements BinaryGenerator
     public function __construct($data_center, $machine, $time_offset = 0)
     {
         if (PHP_INT_SIZE * 8 < 64) {
-            throw new SmallBitModeException(sprintf('This generator require 64-bit mode of processor architecture. Your processor architecture support %d-bit mode.', PHP_INT_SIZE * 8));
+            throw new ProcessorArchitectureException(sprintf('This generator require 64-bit mode of processor architecture. Your processor architecture support %d-bit mode.', PHP_INT_SIZE * 8));
         }
 
         if (!is_int($data_center)) {
