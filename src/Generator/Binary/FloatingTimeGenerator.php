@@ -91,10 +91,10 @@ class FloatingTimeGenerator implements BinaryGenerator
         $time = ((int) floor(microtime(true) * 1000) - $this->time_offset);
 
         $prefix_length = random_int(0, 64 - $this->time_length - 1);
-        $prefix = random_int(0, bindec(str_repeat('1', $prefix_length)));
+        $prefix = random_int(0, (int) bindec(str_repeat('1', $prefix_length)));
 
         $suffix_length = 64 - $this->time_length - 1 - $prefix_length;
-        $suffix = random_int(0, bindec(str_repeat('1', $suffix_length)));
+        $suffix = random_int(0, (int) bindec(str_repeat('1', $suffix_length)));
 
         $uid = 1 << 64 - 1; // first bit is a bitmap limiter
         $uid |= $prefix << $this->time_length + $suffix_length;

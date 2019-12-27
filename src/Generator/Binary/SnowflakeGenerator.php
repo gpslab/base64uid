@@ -100,13 +100,13 @@ class SnowflakeGenerator implements BinaryGenerator
             throw new ZeroArgumentException(sprintf('Time offset should be grate then "0", got "%d" instead.', $time_offset));
         }
 
-        $max_data_center = bindec(str_repeat('1', self::$DATA_CENTER_LENGTH));
+        $max_data_center = (int) bindec(str_repeat('1', self::$DATA_CENTER_LENGTH));
 
         if ($data_center > $max_data_center) {
             throw new ArgumentRangeException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_data_center, $data_center));
         }
 
-        $max_machine = bindec(str_repeat('1', self::$MACHINE_LENGTH));
+        $max_machine = (int) bindec(str_repeat('1', self::$MACHINE_LENGTH));
 
         if ($machine > $max_machine) {
             throw new ArgumentRangeException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_machine, $machine));

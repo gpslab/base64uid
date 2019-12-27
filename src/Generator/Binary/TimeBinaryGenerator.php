@@ -112,8 +112,8 @@ class TimeBinaryGenerator implements BinaryGenerator
         $this->time_length = $time_length;
         $this->time_offset = $time_offset;
         $this->suffix_length = $time_length - $prefix_length;
-        $this->prefix_max_value = bindec(str_repeat('1', $prefix_length));
-        $this->suffix_max_value = bindec(str_repeat('1', $this->suffix_length));
+        $this->prefix_max_value = (int) bindec(str_repeat('1', $prefix_length));
+        $this->suffix_max_value = (int) bindec(str_repeat('1', $this->suffix_length));
     }
 
     /**
