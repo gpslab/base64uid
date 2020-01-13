@@ -69,7 +69,7 @@ class SnowflakeGenerator implements BinaryGenerator
      * The time offset allows to move the starting point of time in microseconds,
      * which reduces the size of the stored time:
      *  0             = 1970-01-01 00:00:00 (UTC)
-     *  1577833200000 = 2020-01-01 00:00:00 (UTC)
+     *  1577836800000 = 2020-01-01 00:00:00 (UTC)
      *
      * @param int $data_center
      * @param int $machine
