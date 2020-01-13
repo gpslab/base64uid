@@ -50,8 +50,8 @@ class HexToBase64BitmapEncoderTest extends TestCase
      * @param int    $bitmap
      * @param string $encoded
      */
-    public function testEncoder($bitmap, $encoded)
+    public function testEncode($bitmap, $encoded)
     {
-        $this->assertSame($encoded, $this->encoder->encoder($bitmap));
+        $this->assertSame($encoded, $this->encoder->encode($bitmap));
     }
 }

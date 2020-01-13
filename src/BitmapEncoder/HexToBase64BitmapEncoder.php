@@ -17,7 +17,7 @@ class HexToBase64BitmapEncoder implements BitmapEncoder
      *
      * @return string
      */
-    public function encoder($bitmap)
+    public function encode($bitmap)
     {
         $hex = dechex($bitmap);
         $binary = pack('H*', $hex);

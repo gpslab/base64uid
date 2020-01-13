@@ -40,6 +40,6 @@ class EncodeBitmapGenerator implements Generator
      */
     public function generate()
     {
-        return $this->encoder->encoder($this->generator->generate());
+        return $this->encoder->encode($this->generator->generate());
     }
 }

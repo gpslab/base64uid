@@ -17,5 +17,5 @@ interface BitmapEncoder
      *
      * @return string
      */
-    public function encoder($bitmap);
+    public function encode($bitmap);
 }
