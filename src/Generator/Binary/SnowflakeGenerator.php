@@ -22,7 +22,7 @@ class SnowflakeGenerator implements BinaryGenerator
      *
      * @var int
      */
-    private static $DATA_CENTER_LENGTH = 5; // data center value 0-31
+    private static $DATA_CENTER_LENGTH = 7; // data center value 0-127
 
     /**
      * TODO use private const after drop PHP < 7.1.
@@ -36,7 +36,7 @@ class SnowflakeGenerator implements BinaryGenerator
      *
      * @var int
      */
-    private static $SEQUENCE_LENGTH = 6; // sequence value 0-63
+    private static $SEQUENCE_LENGTH = 4; // sequence value 0-15
 
     /**
      * @var int
