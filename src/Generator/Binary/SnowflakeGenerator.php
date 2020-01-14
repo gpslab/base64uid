@@ -142,6 +142,7 @@ class SnowflakeGenerator implements BinaryGenerator
             ++$this->sequence;
         } else {
             $this->last_time = $time;
+            $this->sequence = 0;
         }
 
         $uid = 1 << 64 - 1;
