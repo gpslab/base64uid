@@ -56,6 +56,14 @@ class SnowflakeGenerator implements BinaryGenerator
     /**
      * Snowflake.
      *
+     * The time length defines the limit of the stored date:
+     *  40-bits = 1111111111111111111111111111111111111111      = 1099511627775  = 2004-11-03 19:53:48 (UTC)
+     *  41-bits = 11111111111111111111111111111111111111111     = 2199023255551  = 2039-09-07 15:47:36 (UTC)
+     *  42-bits = 111111111111111111111111111111111111111111    = 4398046511103  = 2109-05-15 07:35:11 (UTC)
+     *  43-bits = 1111111111111111111111111111111111111111111   = 8796093022207  = 2248-09-26 15:10:22 (UTC)
+     *  44-bits = 11111111111111111111111111111111111111111111  = 17592186044415 = 2527-06-23 06:20:44 (UTC)
+     *  45-bits = 111111111111111111111111111111111111111111111 = 35184372088831 = 3084-12-12 12:41:29 (UTC)
+     *
      * The time offset allows to move the starting point of time in microseconds,
      * which reduces the size of the stored time:
      *  0             = 1970-01-01 00:00:00 (UTC)
