@@ -14,20 +14,45 @@ Generate UID like YouTube.
 ## Introduction
 
 The library generates a unique identifier consisting of 64 characters and a length of 10 characters *(you can change
-the length of the identifier).* This gives us a lot of combinations.
-
-```
-64^10 = 2^60 = 1 152 921 504 606 846 976 (combinations)
-```
+the length of the identifier).* This gives us 64<sup>10</sup> = 2<sup>60</sup> = 1 152 921 504 606 846 976 combinations.
 
 To represent this number, imagine that in order to get all possible values of identifiers with a length of **10**
 characters and generating an ID every microsecond, it takes **36 559** years.
 
 [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier) works on the same principle, but its main drawback
-is that it's too long. It is not convenient to use it as a public identifier, for example in the URL.
+is that it's too long. It is not convenient to use it as a public identifier, for example in the URL. In order to get
+the same number of combinations as the UUID, we need 2<sup>128</sup> = 64<sup>21</sup> lines 21 characters long, that
+is, almost 2 times shorter than the UUID (37 characters). And if we take an identifier of the same length as the UUID,
+then we get 64<sup>37</sup> = 2<sup>222</sup> against 2<sup>128</sup> for the UUID.
 
-Due to the fact that **Base64 UID** uses 64 chars instead of 36, the identifier turns out to be noticeably shorter.
-Also you have the opportunity to manage the long identifier and the number of possible values. This will optimize the length of the identifier for your business requirements.
+The most important advantage of this approach is that you ourselves control the number of combinations by changing the
+length of the string and the character set. This will optimize the length of the identifier for your business
+requirements.
+
+## Collision
+
+The probability of collision of identifiers can be calculated by the formula:
+
+```
+p(n) ≈ 1 - exp(N * (ln(N - 1) - ln(N - n)) + n * (ln(N - n) - ln(N) - 1) - (ln(N - 1) - ln(N) - 1))
+```
+
+Where
+ * *N* - number of possible options;
+ * *n* - number of generated keys.
+
+Take an identifier with a length of 11 characters, like YouTube, which will give us *N* = 64<sup>11</sup> =
+2<sup>66</sup> and we will get:
+
+ * p(2<sup>25</sup>) ≈ 7.62 * 10<sup>-6</sup>
+ * p(2<sup>30</sup>) ≈ 0.0077
+ * p(2<sup>36</sup>) ≈ 0.9999
+
+That is, by generating 2<sup>36</sup> = 68 719 476 736 identifiers you are almost guaranteed to get a collision.
+
+
+
+*For calculations with large numbers, i recommend [this](https://web2.0calc.com/) online calculator.*
 
 ## Installation
 
@@ -45,17 +70,16 @@ use GpsLab\Component\Base64UID\Base64UID;
 $uid = Base64UID::generate(); // iKtwBpOH2E
 ```
 
-With length 6 chars
+With length 6 chars (64<sup>6</sup> = 68 719 476 736 combinations).
 
 ```php
-// 64^6 = 68 719 476 736 (combinations)
 $uid = Base64UID::generate(6); // nWzfgA
 ```
 
-The floating-length identifier will give more unique identifiers.
+The floating-length identifier will give more unique identifiers
+(64<sup>8</sup> + 64<sup>9</sup> + 64<sup>10</sup> = 1 171 217 378 093 039 616 combinations).
 
 ```php
-// 64^10 + 64^9 + 64^8 = 1 171 217 378 093 039 616 (combinations)
 $uid = Base64UID::generate(random_int(8, 10));
 ```
 
