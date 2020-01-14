@@ -34,7 +34,7 @@ class EncodeBitmapGeneratorTest extends TestCase
         ;
         $bitmap_encoder
             ->expects($this->once())
-            ->method('encoder')
+            ->method('encode')
             ->with($bitmap)
             ->willReturn($uid)
         ;
