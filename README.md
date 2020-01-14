@@ -50,8 +50,6 @@ Take an identifier with a length of 11 characters, like YouTube, which will give
 
 That is, by generating 2<sup>36</sup> = 68 719 476 736 identifiers you are almost guaranteed to get a collision.
 
-
-
 *For calculations with large numbers, i recommend [this](https://web2.0calc.com/) online calculator.*
 
 ## Installation
