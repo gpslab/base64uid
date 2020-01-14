@@ -175,7 +175,7 @@ $uid = $generator->generate(); // 8QRC30YeP3E
 
 #### Snowflake-id
 
-Snowflake-id use time in microseconds, data center index and machine index. This allows you to customize the
+Snowflake-id use time in microseconds and generator id. This allows you to customize the
 generator to your environment and reduce the likelihood of a collision, but the identifiers are very similar to each
 other and the identifier reveals the scheme of your internal infrastructure. Snowflake-id used in Twitter, Instagram, etc. 
 
