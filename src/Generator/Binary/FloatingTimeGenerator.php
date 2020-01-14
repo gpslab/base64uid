@@ -68,7 +68,7 @@ class FloatingTimeGenerator implements BinaryGenerator
         }
 
         if ($time_offset < 0) {
-            throw new ZeroArgumentException(sprintf('Time offset should be grate then or equal to "0", got "%d" instead.', $time_length));
+            throw new ZeroArgumentException(sprintf('Time offset should be grate then or equal to "0", got "%d" instead.', $time_offset));
         }
 
         if ($time_length > 64 - 1) {

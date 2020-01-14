@@ -89,11 +89,11 @@ class SnowflakeGenerator implements BinaryGenerator
         }
 
         if (!is_int($machine)) {
-            throw new ArgumentTypeException(sprintf('Machine should be integer, got "%s" instead.', gettype($data_center)));
+            throw new ArgumentTypeException(sprintf('Machine should be integer, got "%s" instead.', gettype($machine)));
         }
 
         if (!is_int($time_offset)) {
-            throw new ArgumentTypeException(sprintf('Time offset should be integer, got "%s" instead.', gettype($data_center)));
+            throw new ArgumentTypeException(sprintf('Time offset should be integer, got "%s" instead.', gettype($time_offset)));
         }
 
         if ($data_center < 0) {
