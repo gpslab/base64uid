@@ -12,41 +12,31 @@ namespace GpsLab\Component\Base64UID\Generator\Binary;
 
 use GpsLab\Component\Base64UID\Exception\ArgumentRangeException;
 use GpsLab\Component\Base64UID\Exception\ArgumentTypeException;
+use GpsLab\Component\Base64UID\Exception\BitmapOverflowException;
 use GpsLab\Component\Base64UID\Exception\ProcessorArchitectureException;
 use GpsLab\Component\Base64UID\Exception\ZeroArgumentException;
 
 class SnowflakeGenerator implements BinaryGenerator
 {
     /**
-     * TODO use private const after drop PHP < 7.1.
-     *
      * @var int
      */
-    private static $DATA_CENTER_LENGTH = 7; // data center value 0-127
-
-    /**
-     * TODO use private const after drop PHP < 7.1.
-     *
-     * @var int
-     */
-    private static $MACHINE_LENGTH = 7; // machine value 0-127
-
-    /**
-     * TODO use private const after drop PHP < 7.1.
-     *
-     * @var int
-     */
-    private static $SEQUENCE_LENGTH = 4; // sequence value 0-15
+    private $generator;
 
     /**
      * @var int
      */
-    private $data_center;
+    private $generator_length;
 
     /**
      * @var int
      */
-    private $machine;
+    private $sequence_length;
+
+    /**
+     * @var int
+     */
+    private $time_length;
 
     /**
      * @var int
@@ -71,12 +61,19 @@ class SnowflakeGenerator implements BinaryGenerator
      *  0             = 1970-01-01 00:00:00 (UTC)
      *  1577836800000 = 2020-01-01 00:00:00 (UTC)
      *
-     * @param int $data_center
-     * @param int $machine
+     * @param int $generator
+     * @param int $generator_length
+     * @param int $sequence_length
+     * @param int $time_length
      * @param int $time_offset
      */
-    public function __construct($data_center, $machine, $time_offset = 0)
-    {
+    public function __construct(
+        $generator,
+        $generator_length = 10,
+        $sequence_length = 12,
+        $time_length = 41,
+        $time_offset = 1577836800000
+    ) {
         // @codeCoverageIgnoreStart
         // can't reproduce this condition in tests
         if (PHP_INT_SIZE * 8 < 64) {
@@ -84,40 +81,54 @@ class SnowflakeGenerator implements BinaryGenerator
         }
         // @codeCoverageIgnoreEnd
 
-        if (!is_int($data_center)) {
-            throw new ArgumentTypeException(sprintf('Data center should be integer, got "%s" instead.', gettype($data_center)));
+        if (!is_int($generator)) {
+            throw new ArgumentTypeException(sprintf('Generator should be integer, got "%s" instead.', gettype($generator)));
         }
 
-        if (!is_int($machine)) {
-            throw new ArgumentTypeException(sprintf('Machine should be integer, got "%s" instead.', gettype($machine)));
+        if (!is_int($generator_length)) {
+            throw new ArgumentTypeException(sprintf('Generator length should be integer, got "%s" instead.', gettype($generator_length)));
+        }
+
+        if (!is_int($sequence_length)) {
+            throw new ArgumentTypeException(sprintf('Sequence length should be integer, got "%s" instead.', gettype($sequence_length)));
+        }
+
+        if (!is_int($time_length)) {
+            throw new ArgumentTypeException(sprintf('Time length should be integer, got "%s" instead.', gettype($time_length)));
         }
 
         if (!is_int($time_offset)) {
             throw new ArgumentTypeException(sprintf('Time offset should be integer, got "%s" instead.', gettype($time_offset)));
         }
 
-        if ($data_center < 0) {
-            throw new ZeroArgumentException(sprintf('Data center should be grate then "0", got "%d" instead.', $data_center));
+        if ($generator < 0) {
+            throw new ZeroArgumentException(sprintf('Generator should be grate then "0", got "%d" instead.', $generator));
         }
 
-        if ($machine < 0) {
-            throw new ZeroArgumentException(sprintf('Machine should be grate then "0", got "%d" instead.', $machine));
+        if ($generator_length < 0) {
+            throw new ZeroArgumentException(sprintf('Generator length should be grate then "0", got "%d" instead.', $generator_length));
+        }
+
+        if ($sequence_length < 0) {
+            throw new ZeroArgumentException(sprintf('Sequence length should be grate then "0", got "%d" instead.', $sequence_length));
+        }
+
+        if ($time_length < 0) {
+            throw new ZeroArgumentException(sprintf('Time length should be grate then "0", got "%d" instead.', $time_length));
         }
 
         if ($time_offset < 0) {
             throw new ZeroArgumentException(sprintf('Time offset should be grate then "0", got "%d" instead.', $time_offset));
         }
 
-        $max_data_center = (int) bindec(str_repeat('1', self::$DATA_CENTER_LENGTH));
-
-        if ($data_center > $max_data_center) {
-            throw new ArgumentRangeException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_data_center, $data_center));
+        if ($generator_length + $sequence_length + $time_length > 64 - 1) {
+            throw new ArgumentRangeException(sprintf('Length of generator, sequence and time for UID should be less than or equal to "%d", got "%d" instead.', 64 - 1, $generator_length + $sequence_length + $time_length));
         }
 
-        $max_machine = (int) bindec(str_repeat('1', self::$MACHINE_LENGTH));
+        $max_generator_id = (int) bindec(str_repeat('1', $generator_length));
 
-        if ($machine > $max_machine) {
-            throw new ArgumentRangeException(sprintf('Data center number should be grate then or equal to "%d", got "%d" instead.', $max_machine, $machine));
+        if ($generator > $max_generator_id) {
+            throw new ArgumentRangeException(sprintf('Generator should be grate then or equal to "%d", got "%d" instead.', $max_generator_id, $generator));
         }
 
         $now = (int) floor(microtime(true) * 1000);
@@ -126,8 +137,16 @@ class SnowflakeGenerator implements BinaryGenerator
             throw new ArgumentRangeException(sprintf('Time offset should be grate then or equal to current time "%d", got "%d" instead.', $now, $time_offset));
         }
 
-        $this->data_center = $data_center;
-        $this->machine = $machine;
+        $min_time_length = strlen(decbin($now - $time_offset));
+
+        if ($time_length < $min_time_length) {
+            throw new ArgumentRangeException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length, $time_length));
+        }
+
+        $this->generator = $generator;
+        $this->generator_length = $generator_length;
+        $this->sequence_length = $sequence_length;
+        $this->time_length = $time_length;
         $this->time_offset = $time_offset;
     }
 
@@ -138,6 +157,14 @@ class SnowflakeGenerator implements BinaryGenerator
     {
         $time = ((int) floor(microtime(true) * 1000) - $this->time_offset);
 
+        // @codeCoverageIgnoreStart
+        // overflow validation is in the constructor,
+        // but there is a chance that overflow will occur in the process of using this service
+        if ($time >= 1 << $this->time_length) {
+            throw new BitmapOverflowException(sprintf('Bitmap for time is overflow of %d bits.', $this->time_length));
+        }
+        // @codeCoverageIgnoreEnd
+
         if ($this->last_time === $time) {
             ++$this->sequence;
         } else {
@@ -146,9 +173,8 @@ class SnowflakeGenerator implements BinaryGenerator
         }
 
         $uid = 1 << 64 - 1;
-        $uid |= $time << self::$DATA_CENTER_LENGTH + self::$MACHINE_LENGTH + self::$SEQUENCE_LENGTH;
-        $uid |= $this->data_center << self::$MACHINE_LENGTH + self::$SEQUENCE_LENGTH;
-        $uid |= $this->machine << self::$SEQUENCE_LENGTH;
+        $uid |= $time << $this->generator_length + $this->sequence_length;
+        $uid |= $this->generator << $this->sequence_length;
         $uid |= $this->sequence;
 
         return $uid;
