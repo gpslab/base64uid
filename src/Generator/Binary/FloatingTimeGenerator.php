@@ -81,10 +81,10 @@ class FloatingTimeGenerator implements BinaryGenerator
             throw new ArgumentRangeException(sprintf('Time offset should be grate then or equal to current time "%d", got "%d" instead.', $now, $time_offset));
         }
 
-        $min_time_length = strlen(decbin($now));
+        $min_time_length = strlen(decbin($now - $time_offset));
 
-        if ($time_length < $min_time_length - $time_offset) {
-            throw new ArgumentRangeException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length - $time_offset, $time_length));
+        if ($time_length < $min_time_length) {
+            throw new ArgumentRangeException(sprintf('Length of time for UID should be grate then or equal to "%d", got "%d" instead.', $min_time_length, $time_length));
         }
 
         $this->time_length = $time_length;
