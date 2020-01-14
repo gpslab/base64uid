@@ -91,6 +91,126 @@ $charset = '0123456789abcdef';
 $uid = Base64UID::generate(11, $charset);
 ```
 
+### Other algorithms for generate UID
+
+#### Random char
+
+Generate random characters of a finite UID from a charset.
+
+```php
+$generator = new RandomCharGenerator();
+$uid = $generator->generate(); // iKtwBpOH2E
+```
+
+Limit the length of the UID and the charset.
+
+```php
+$charset = '0123456789abcdef';
+$generator = new RandomCharGenerator(6, $charset);
+$uid = $generator->generate(); // fa6c7d
+```
+
+#### Random bytes
+
+Generate random bytes and encode it in Base64.
+
+```php
+$generator = new RandomBytesGenerator();
+$uid = $generator->generate(); // YCfGKBxd9k4
+```
+
+```php
+$generator = new RandomBytesGenerator(5);
+$uid = $generator->generate(); // Mm7dpkM
+```
+
+#### Encoded random bits
+
+Generate bitmap with random bits and encode it in Base64.
+The bitmap length is 64 bits and it require 64-bit mode of processor architecture.
+
+```php
+$binary_generator = new RandomBinaryGenerator(32);
+$encoder = new HexToBase64BitmapEncoder();
+$generator = new EncodeBitmapGenerator($binary_generator, $encoder);
+$uid = $generator->generate(); // 7MWx2BuWJUw
+```
+
+#### Encoded bitmap of time
+
+Generate bitmap with current time in microseconds and encode it in Base64.
+The bitmap length is 64 bits and it require 64-bit mode of processor architecture.
+
+```php
+$binary_generator = new TimeBinaryGenerator();
+$encoder = new HexToBase64BitmapEncoder();
+$generator = new EncodeBitmapGenerator($binary_generator, $encoder);
+$uid = $generator->generate(); // koLfRhzAoI0
+$uid = $generator->generate(); // zALfRhzAovg
+$uid = $generator->generate(); // 18LfRhzAoQw
+```
+
+Generated bitmap has a structure:
+
+```
+{first bit}{random prefix}{current time}{random suffix}
+```
+
+* *first bit* - bitmap limiter for fixed size of bitmap;
+* *prefix* - random bits used in prefix of bitmap. The length of the generated bits can be configured from `$prefix_length`;
+* *time* - bits of current time in microseconds. 
+* *suffix* - random bits used in suffix of bitmap. The length is calculated from `64 - 1 - $prefix_length - $time_length`.
+
+Responsibly select the number of bits allocated to store the current time. The `$time_length` defines the limit of the
+stored date:
+
+| Bits limit | Maximum available bitmap | Unix Timestamp | Date |
+|---|---|---|---|
+| 40-bits | `1111111111111111111111111111111111111111`      | `1099511627775`  | 2004-11-03 19:53:48 (UTC) |
+| 41-bits | `11111111111111111111111111111111111111111`     | `2199023255551`  | 2039-09-07 15:47:36 (UTC) |
+| 42-bits | `111111111111111111111111111111111111111111`    | `4398046511103`  | 2109-05-15 07:35:11 (UTC) |
+| 43-bits | `1111111111111111111111111111111111111111111`   | `8796093022207`  | 2248-09-26 15:10:22 (UTC) |
+| 44-bits | `11111111111111111111111111111111111111111111`  | `17592186044415` | 2527-06-23 06:20:44 (UTC) |
+| 45-bits | `111111111111111111111111111111111111111111111` | `35184372088831` | 3084-12-12 12:41:29 (UTC) |
+
+To reduce the size of the saved time, you can use a `$time_offset` that allows you to move the starting point of time:
+
+| Offset microseconds | Offset date | Maximum available date for 41-bits |
+|---|---|---|
+| 0             | 1970-01-01 00:00:00 (UTC) | 2039-09-07 15:47:36 (UTC) |
+| 1577836800000 | 2020-01-01 00:00:00 (UTC) | 2089-09-06 15:47:36 (UTC) |
+
+#### Encoded bitmap of floating time
+
+It is similar to the previous generator `TimeBinaryGenerator`, but the position with bits of the current time is
+floating. That is, the length of the prefix and suffix is randomly generated each time. Simultaneously generated
+identifiers have less similarity, but the likelihood of collision increases.
+
+```php
+$binary_generator = new FloatingTimeGenerator();
+$encoder = new HexToBase64BitmapEncoder();
+$generator = new EncodeBitmapGenerator($binary_generator, $encoder);
+$uid = $generator->generate(); // 5mqhb6MPH7g
+$uid = $generator->generate(); // kFvow8joJys
+$uid = $generator->generate(); // 8QRC30YeP3E
+```
+
+#### Snowflake-id
+
+Snowflake-id use time in microseconds and generator id. This allows you to customize the
+generator to your environment and reduce the likelihood of a collision, but the identifiers are very similar to each
+other and the identifier reveals the scheme of your internal infrastructure. Snowflake-id used in Twitter, Instagram, etc. 
+
+```php
+$generator_id = 0; // value 0-1023
+$binary_generator = new SnowflakeGenerator($generator_id);
+$encoder = new HexToBase64BitmapEncoder();
+$generator = new EncodeBitmapGenerator($binary_generator, $encoder);
+$uid = $generator->generate(); // gBFKQeuAAAA
+$uid = $generator->generate(); // gBFKQeuAAAE
+$uid = $generator->generate(); // gBFKQevAAAA
+```
+
 ## Domain-driven design (DDD)
 
 How to usage in your [domain](https://en.wikipedia.org/wiki/Domain-driven_design).

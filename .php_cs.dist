@@ -22,10 +22,12 @@ return PhpCsFixer\Config::create()
             'multiLineExtendsEachSingleLine' => true,
         ),
         'yoda_style' => false,
+        'no_superfluous_phpdoc_tags' => false,
     ))
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in(__DIR__.'/src')
             ->in(__DIR__.'/tests')
+            ->notPath('bootstrap.php')
     )
 ;
